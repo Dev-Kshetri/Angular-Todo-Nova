@@ -1,0 +1,286 @@
+header {
+  background-color: #efefef;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  height: 100px;
+  background: rgba(69, 110, 232, 0.649);
+  background: linear-gradient(
+    90deg,
+    rgba(69, 110, 232, 0.754) 0%,
+    rgba(24, 176, 236, 0.725) 100%
+  );
+  nav {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    h1 {
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      color: rgb(0, 0, 0);
+      font-weight: 900;
+      font-family: "Poppins";
+    }
+    button {
+      background-color: rgb(29, 29, 29);
+      color: rgb(245, 242, 242);
+      padding: 10px 15px;
+      border: none;
+      border-radius: 15px;
+      font-weight: 900;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.5s ease-in-out;
+      font-weight: 900;
+      text-transform: uppercase;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+section {
+  display: flex;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0px auto;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3%;
+
+  div.box {
+    background-color: rgba(212, 212, 212, 0.656);
+    width: 100%;
+    padding: 2rem 1rem 3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 750px;
+    overflow-y: scroll;
+    // z-index: 100;
+    position: relative;
+
+    span#title {
+      top: 0;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: rgb(0, 0, 0);
+      text-transform: uppercase;
+      background-color: rgb(0, 0, 0);
+
+      color: #0b90b5;
+      background-image: -webkit-linear-gradient(0deg, #0b90b5 0%, #655afa 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      justify-content: space-between;
+      .total-number {
+        height: 40px;
+        width: 40px;
+        font-weight: 900;
+        font-family: "Poppins";
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+      }
+    }
+
+    .card {
+      min-height: 200px;
+      background-color: #fafafa;
+      padding: 1rem;
+      overflow-y: hidden;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      cursor: pointer;
+      h3 {
+        border-bottom: 1px solid rgb(212, 210, 210);
+        display: inline;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        p.date {
+          font-size: 0.8rem;
+          color: rgb(48, 48, 48);
+          background-color: #367def;
+          color: #fff;
+          font-weight: 600;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+          padding: 4px;
+          border-radius: 10px;
+        }
+      }
+      p {
+        margin-top: 10px;
+        font-size: 1rem;
+      }
+      .controls {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding-top: 15px;
+        justify-content: space-between;
+
+        span {
+          display: flex;
+          button {
+            all: initial;
+            margin-right: 10px;
+            padding: 5px;
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &:nth-child(1) {
+              background-color: #3aefa4;
+              color: rgb(26, 24, 24);
+            }
+            &:nth-child(2) {
+              background-color: #f0566d;
+              color: #fff;
+            }
+            cursor: pointer;
+          }
+        }
+
+        span.chip {
+          background-color: #404040;
+          color: rgb(255, 255, 255);
+          border-radius: 5px;
+          text-transform: uppercase;
+          font-size: 0.8rem;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          padding: 0px 3px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  section {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(191, 191, 191);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(206, 206, 206);
+}
+:host ::ng-deep button {
+  margin-right: 0.5em;
+}
+
+// Modal Style
+
+:host ::ng-deep .p-button {
+  margin: 0 0.5rem 0 0;
+  min-width: 10rem;
+}
+
+p {
+  margin: 0;
+}
+
+.confirmation-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host ::ng-deep .p-dialog .p-button {
+  min-width: 6rem;
+}
+
+:host ::ng-deep .background-modal {
+  background-color: rgba(51, 51, 51, 0.919) !important;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  box-sizing: border-box;
+  input {
+    all: initial;
+    box-sizing: border-box;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    font-family: inherit;
+    background-color: #ebebeb;
+    border-radius: 4px;
+    padding: 1rem 8px;
+  }
+  textarea {
+    all: initial;
+    box-sizing: border-box;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    font-family: inherit;
+    background-color: #ebebeb;
+    padding: 1rem 8px;
+    border-radius: 4px;
+  }
+  div.breaker {
+    all: initial;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+
+    select {
+      box-sizing: border-box;
+      width: 100%;
+      border-bottom: 1px solid gray;
+      background-color: #ebebeb;
+      padding: 1rem 8px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 0px;
+      border-bottom: 1px solid gray;
+      cursor: pointer;
+    }
+  }
+
+  button {
+    all: initial;
+    box-sizing: border-box;
+    font-family: inherit;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    background-color: rgb(52, 173, 225);
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -0.6em 0px -0.35em inset;
+  }
+}

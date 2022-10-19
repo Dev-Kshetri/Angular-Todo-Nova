@@ -1,1 +1,204 @@
-<h1>Hello World</h1>
+<header>
+  <nav>
+    <h1>TodoApp</h1>
+    <button (click)="showModalDialog()">+ Add Task</button>
+  </nav>
+</header>
+<section>
+  <div
+    class="box box-1"
+    id="box-1"
+    (drop)="drop($event, container1)"
+    (dragover)="allowDrop($event)"
+    #container1
+    data-action="notstarted"
+  >
+    <span id="title"
+      >Notstarted Tasks
+      <b class="total-number">{{ tasksNotStarted.length | number }}</b></span
+    >
+    <div
+      class="card"
+      *ngFor="let task of tasksNotStarted"
+      [id]="task.id"
+      draggable="true"
+      (dragstart)="drag($event)"
+    >
+      <h3>
+        {{ task.title }}
+        <p class="date">{{ task.date }}</p>
+      </h3>
+      <p>{{ task.description }}</p>
+      <div class="controls">
+        <span>
+          <button pTooltip="Edit Task">
+            <i class="pi pi-pencil"></i>
+          </button>
+          <button pTooltip="Delete Task" (click)="onDeleteTask(task.id)">
+            <i class="pi pi-trash"></i>
+          </button>
+        </span>
+        <span class="chip">
+          Priority -
+          {{
+            task.priority == 1
+              ? "low"
+              : task.priority == 2
+              ? "medium"
+              : task.priority == 3
+              ? "high"
+              : ("none" | titlecase)
+          }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="box box-2"
+    id="box-2"
+    (drop)="drop($event, container2)"
+    (dragover)="allowDrop($event)"
+    data-action="started"
+    #container2
+  >
+    <span id="title"
+      >Started Tasks
+      <b class="total-number">{{ tasksStarted.length | number }}</b></span
+    >
+    <div
+      class="card"
+      *ngFor="let task of tasksStarted"
+      [id]="task.id"
+      draggable="true"
+      (dragstart)="drag($event)"
+    >
+      <h3>
+        {{ task.title }}
+        <p class="date">{{ task.date }}</p>
+      </h3>
+      <p>{{ task.description }}</p>
+      <div class="controls">
+        <span>
+          <button pTooltip="Edit Task">
+            <i class="pi pi-pencil"></i>
+          </button>
+          <button pTooltip="Delete Task" (click)="onDeleteTask(task.id)">
+            <i class="pi pi-trash"></i>
+          </button>
+        </span>
+        <span class="chip">
+          Priority -
+          {{
+            task.priority == 1
+              ? "low"
+              : task.priority == 2
+              ? "medium"
+              : task.priority == 3
+              ? "high"
+              : ("none" | titlecase)
+          }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    class="box box-3"
+    id="box-3"
+    (drop)="drop($event, container3)"
+    (dragover)="allowDrop($event)"
+    data-action="finished"
+    #container3
+  >
+    <span id="title"
+      >Finished Tasks
+      <b class="total-number">{{ tasksCompleted.length | number }}</b>
+    </span>
+    <div
+      class="card"
+      *ngFor="let task of tasksCompleted"
+      [id]="task.id"
+      draggable="true"
+      (dragstart)="drag($event)"
+    >
+      <h3>
+        {{ task.title }}
+        <p class="date">{{ task.date }}</p>
+      </h3>
+      <p>{{ task.description }}</p>
+      <div class="controls">
+        <span>
+          <button pTooltip="Edit Task">
+            <i class="pi pi-pencil"></i>
+          </button>
+          <button pTooltip="Delete Task" (click)="onDeleteTask(task.id)">
+            <i class="pi pi-trash"></i>
+          </button>
+        </span>
+        <span class="chip">
+          Priority -
+          {{
+            task.priority == 1
+              ? "low"
+              : task.priority == 2
+              ? "medium"
+              : task.priority == 3
+              ? "high"
+              : ("none" | titlecase)
+          }}
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <h5>Modal Create</h5> -->
+<p-dialog
+  header="Add new Task"
+  [(visible)]="displayModal"
+  [modal]="true"
+  [style]="{ minWidth: '700px' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="dialog-create"
+  maskStyleClass="background-modal"
+>
+  <form
+    id="create-form"
+    #userForm="ngForm"
+    (ngSubmit)="onSubmit(userForm)"
+    novalidate
+  >
+    <input
+      type="text"
+      placeholder="Task Title"
+      name="title"
+      ngModel
+      #title="ngModel"
+    />
+    <textarea
+      name=""
+      id=""
+      placeholder="Task Description (Max 255 Characters)"
+      maxlength="255"
+      name="description"
+      ngModel
+      #description="ngModel"
+    ></textarea>
+    <div class="breaker">
+      <select name="priority" id="" ngModel #priority="ngModel">
+        <option value="" selected disabled hidden>Choose (Priority)</option>
+        <option value="1" selected>Low</option>
+        <option value="2">Medium</option>
+        <option value="3">High</option>
+      </select>
+      <select name="status" id="" ngModel #status="ngModel">
+        <option value="" selected disabled hidden>Choose (Status)</option>
+        <option value="notstarted">Not Started</option>
+        <option value="started">Started</option>
+        <option value="finished">Finished</option>
+      </select>
+    </div>
+    <button type="submit">Add Task</button>
+  </form>
+</p-dialog>
