@@ -30,7 +30,4 @@ export class TodoserviceService {
     return this.http.post(this.baseUrl, task);
   }
 
-
-
-
 }//Class TodoserviceService

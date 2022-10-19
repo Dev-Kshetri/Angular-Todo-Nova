@@ -1,7 +1,7 @@
 <header>
   <nav>
     <h1>TodoApp</h1>
-    <button (click)="showModalDialog()">+ Add Task</button>
+    <button (click)="onCreateTask()">+ Add Task</button>
   </nav>
 </header>
 <section>
@@ -31,7 +31,7 @@
       <p>{{ task.description }}</p>
       <div class="controls">
         <span>
-          <button pTooltip="Edit Task">
+          <button pTooltip="Edit Task" (click)="onModifyTask(task.id)">
             <i class="pi pi-pencil"></i>
           </button>
           <button pTooltip="Delete Task" (click)="onDeleteTask(task.id)">
@@ -79,7 +79,7 @@
       <p>{{ task.description }}</p>
       <div class="controls">
         <span>
-          <button pTooltip="Edit Task">
+          <button pTooltip="Edit Task" (click)="onModifyTask(task.id)">
             <i class="pi pi-pencil"></i>
           </button>
           <button pTooltip="Delete Task" (click)="onDeleteTask(task.id)">
@@ -127,7 +127,7 @@
       <p>{{ task.description }}</p>
       <div class="controls">
         <span>
-          <button pTooltip="Edit Task">
+          <button pTooltip="Edit Task" (click)="onModifyTask(task.id)">
             <i class="pi pi-pencil"></i>
           </button>
           <button pTooltip="Delete Task" (click)="onDeleteTask(task.id)">
@@ -151,54 +151,124 @@
   </div>
 </section>
 
-<!-- <h5>Modal Create</h5> -->
-<p-dialog
-  header="Add new Task"
-  [(visible)]="displayModal"
-  [modal]="true"
-  [style]="{ minWidth: '700px' }"
-  [baseZIndex]="10000"
-  [draggable]="false"
-  [resizable]="false"
-  styleClass="dialog-create"
-  maskStyleClass="background-modal"
->
-  <form
-    id="create-form"
-    #userForm="ngForm"
-    (ngSubmit)="onSubmit(userForm)"
-    novalidate
+<div *ngIf="showCreateTaskModal; then createModal; else modifyModal"></div>
+<ng-template #createModal>
+  <p-dialog
+    header="Add new Task"
+    [(visible)]="displayModal"
+    [modal]="true"
+    [style]="{ minWidth: '700px' }"
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false"
+    styleClass="dialog-create"
+    maskStyleClass="background-modal"
   >
-    <input
-      type="text"
-      placeholder="Task Title"
-      name="title"
-      ngModel
-      #title="ngModel"
-    />
-    <textarea
-      name=""
-      id=""
-      placeholder="Task Description (Max 255 Characters)"
-      maxlength="255"
-      name="description"
-      ngModel
-      #description="ngModel"
-    ></textarea>
-    <div class="breaker">
-      <select name="priority" id="" ngModel #priority="ngModel">
-        <option value="" selected disabled hidden>Choose (Priority)</option>
-        <option value="1" selected>Low</option>
-        <option value="2">Medium</option>
-        <option value="3">High</option>
-      </select>
-      <select name="status" id="" ngModel #status="ngModel">
-        <option value="" selected disabled hidden>Choose (Status)</option>
-        <option value="notstarted">Not Started</option>
-        <option value="started">Started</option>
-        <option value="finished">Finished</option>
-      </select>
-    </div>
-    <button type="submit">Add Task</button>
-  </form>
-</p-dialog>
+    <form
+      id="create-form"
+      #userForm="ngForm"
+      (ngSubmit)="onSubmitCreate(userForm)"
+      novalidate
+    >
+      <input
+        type="text"
+        placeholder="Task Title"
+        name="title"
+        ngModel
+        #title="ngModel"
+      />
+      <textarea
+        name=""
+        id=""
+        placeholder="Task Description (Max 255 Characters)"
+        maxlength="255"
+        name="description"
+        ngModel
+        #description="ngModel"
+      ></textarea>
+      <div class="breaker">
+        <select name="priority" id="" ngModel #priority="ngModel">
+          <option value="" selected disabled hidden>Choose (Priority)</option>
+          <option value="1" selected>Low</option>
+          <option value="2">Medium</option>
+          <option value="3">High</option>
+        </select>
+        <select name="status" id="" ngModel #status="ngModel">
+          <option value="" selected disabled hidden>Choose (Status)</option>
+          <option value="notstarted">Not Started</option>
+          <option value="started">Started</option>
+          <option value="finished">Finished</option>
+        </select>
+      </div>
+      <button type="submit">Add Task</button>
+    </form>
+  </p-dialog>
+</ng-template>
+
+<!-- <h5>Modal Modify</h5> -->
+<ng-template #modifyModal>
+  <p-dialog
+    header="Modify Task"
+    [(visible)]="displayModal"
+    [modal]="true"
+    [style]="{ minWidth: '700px' }"
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false"
+    styleClass="dialog-create"
+    maskStyleClass="background-modal"
+  >
+    <form
+      id="create-form"
+      #userForm="ngForm"
+      (ngSubmit)="onSubmitModify(userForm)"
+      novalidate
+    >
+      <input
+        type="text"
+        placeholder="Task Title"
+        name="title"
+        ngModel
+        #title="ngModel"
+        value="{{ taskToModify.title }}"
+      />
+      <textarea
+        name=""
+        id=""
+        placeholder="Task Description (Max 255 Characters)"
+        maxlength="255"
+        name="description"
+        ngModel
+        #description="ngModel"
+        value="{{ taskToModify.description }}"
+      ></textarea>
+      <div class="breaker">
+        <select
+          name="priority"
+          id=""
+          ngModel
+          #priority="ngModel"
+          value="{{ taskToModify.priority }}"
+        >
+          <option value="" selected disabled hidden>Choose (Priority)</option>
+          <option value="1" selected>Low</option>
+          <option value="2">Medium</option>
+          <option value="3">High</option>
+        </select>
+        <select
+          name="status"
+          id=""
+          ngModel
+          #status="ngModel"
+          value="{{ taskToModify.status }}"
+        >
+          <option value="" selected disabled hidden>Choose (Status)</option>
+          <option value="notstarted">Not Started</option>
+          <option value="started">Started</option>
+          <option value="finished">Finished</option>
+        </select>
+      </div>
+      <button type="submit">Confirm Modify Task</button>
+    </form>
+  </p-dialog>
+</ng-template>

@@ -25,6 +25,16 @@ export class AppComponent implements OnInit {
   tasksStarted: Array<TaskProps> = [];
   tasksCompleted: Array<TaskProps> = [];
   $event: any;
+  displayModal!: boolean;
+  displayBasic!: boolean;
+  displayBasic2!: boolean;
+  displayMaximizable!: boolean;
+  displayPosition!: boolean;
+  position!: string;
+  showCreateTaskModal: boolean = true;
+
+  taskToModify: any;
+
 
 
   constructor(private todoserviceService: TodoserviceService, private primengConfig: PrimeNGConfig) {
@@ -45,9 +55,13 @@ export class AppComponent implements OnInit {
   }
 
   onDeleteTask(idToDelete: number) {
+    let serverStarted = false;
     this.todoserviceService.deleteTask(idToDelete).subscribe((data: any) => {
-      this.refetchData();
+      serverStarted = true;
     });
+    this.refetchData();
+    alert("Task deleted Sucessfully");
+    window.location.reload();
   }
 
   allowDrop(event: any) {
@@ -74,13 +88,6 @@ export class AppComponent implements OnInit {
       );
   }
 
-  // Modal vars
-  displayModal!: boolean;
-  displayBasic!: boolean;
-  displayBasic2!: boolean;
-  displayMaximizable!: boolean;
-  displayPosition!: boolean;
-  position!: string;
 
   showModalDialog() {
     this.displayModal = true;
@@ -98,15 +105,45 @@ export class AppComponent implements OnInit {
     this.position = position;
     this.displayPosition = true;
   }
-  onSubmit(userForm: NgForm) {
-    console.log(userForm.value);
-    this.todoserviceService.createTask(userForm.value).subscribe((data: any) => {
-      console.log(data);
+  onSubmitCreate(userForm: NgForm) {
+    const data = userForm.value;
+    const finalData = { ...data, status: "notstarted", priority: data.priority != 1 || data.priority != 2 || data.priority != 3 ? 1 : data.priority };
+
+    this.todoserviceService.createTask(finalData).subscribe((data: any) => {
       this.refetchData();
       alert("Task added Sucessfully");
+      window.location.reload();
       this.displayModal = false;
     });
   }
 
+  onSubmitModify(userForm: NgForm) {
+    const data = userForm.value;
+    const finalData = {
+      title: data.title || this.taskToModify.title,
+      description: data.description || this.taskToModify.description,
+      priority: data.priority || this.taskToModify.priority,
+      status: data.status || this.taskToModify.status,
+      date: data.date || this.taskToModify.date
+    }
+    this.todoserviceService.updateTask(this.taskToModify.id, finalData).subscribe((data: any) => {
+      this.refetchData();
+      alert("Task updated Sucessfully");
+      window.location.reload();
+      this.displayModal = false;
+    }
+    );
+  }
+  onCreateTask() {
+    this.showCreateTaskModal = true;
+    this.showModalDialog();
+  }
+
+  onModifyTask(taskId: number) {
+    this.taskToModify = this.tasks.find((task: TaskProps) => task.id === taskId);
+    this.showCreateTaskModal = false;
+    console.log(this.taskToModify);
+    this.showModalDialog();
+  }
 
 }
